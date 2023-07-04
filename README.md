@@ -1,2 +1,2 @@
 # Blog_project
-This is my first proejct while learinig django .
+This is my first proejct while learning django .
