@@ -9,7 +9,7 @@ from .forms import UserRegisterForm,UserUpdateForm, ProfileUpdateForm
 # Create your views here.
 def register(request):
     if request.method =='POST':
-        form = UserRegister(request.POST)
+        form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
             username =form.cleaned_data.get('username')

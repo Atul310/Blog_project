@@ -11,7 +11,7 @@ from django.urls import reverse
 class Post(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()  # content can be of any length so we use textfield
-    # datatypes
+    
     date_posted = models.DateTimeField(default=timezone.now)
 
     author = models.ForeignKey(User, on_delete=models.CASCADE,default=1)

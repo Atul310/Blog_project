@@ -53,7 +53,13 @@ class PostUpdateView(LoginRequiredMixin,CreateView):
     
 class PostDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
     model = Post
-    success_url= '/'
+    success_url= '/Blog'
+    def test_func(self):
+        # Add your implementation logic here
+        # Check if the current user has permission to delete the post
+        return self.request.user == self.get_object().author
+
+
 
 def about(request):
     return render(request,'blog/about.html',{"titl]e":"About"})
