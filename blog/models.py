@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.conf import settings
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -14,7 +14,7 @@ class Post(models.Model):
     
     date_posted = models.DateTimeField(default=timezone.now)
 
-    author = models.ForeignKey(User, on_delete=models.CASCADE,default=1)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     
     
     def _str__(self):
@@ -42,3 +42,11 @@ class Post(models.Model):
 # user are predefined in django authenciation system
 
 # Create your models here.
+class Comment(models.Model):
+    post = models.ForeignKey('blog.Post', on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    content = models.TextField()
+    pub_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Comment by {self.author} on {self.post.title}"

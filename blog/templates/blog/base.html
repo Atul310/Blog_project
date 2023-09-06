@@ -1,5 +1,8 @@
 
   {% load static %}
+  {% load humanize %}
+  {% comment %} {% load calendar_tags %}
+{% display_calendar events %} {% endcomment %}
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -16,6 +19,7 @@
       <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}"> 
+        <script src="{% static 'blog/datetime.js' %}"></script>
       {% if title %} <!-- way of writing the -->
       <title>Blog {{title}}</title>
       {% else %}
@@ -29,7 +33,7 @@
       <header class="site-header">
           <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
             <div class="container">
-              <a class="navbar-brand mr-4" href="{% url 'blog-home' %}"> My Blog </a><!--  in nav bar My blog is this-->
+              <a class="navbar-brand mr-4" href="{% url 'my-blogs' %}"> My Blogs </a><!--  in nav bar My blog is this-->
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
               </button>
@@ -62,7 +66,7 @@
                   {{ message }}
 
                 </div>
-                {% endfor %}  
+              {% endfor %}  
               {% endif %}
               {% block content %}{% endblock %}
             </div>
@@ -72,8 +76,20 @@
                 <p class='text-muted'>You can put any information here you'd like.
                   <ul class="list-group">
                     <li class="list-group-item list-group-item-light">Latest Posts</li>
-                    <li class="list-group-item list-group-item-light">Announcements</li>
-                    <li class="list-group-item list-group-item-light">Calendars</li>
+                    <!-- <li class="list-group-item list-group-item-light">Announcements</li> -->
+                      <div class="sidebar">
+                        <h3> Dates and Times </h3>
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-light">
+                                <strong>Current Date:</strong> {{ current_datetime|date:"F d, Y" }}
+                            </li>
+                            <li class="list-group-item list-group-item-light">
+                              <strong>Current Time:</strong> <span id="current-time"></span>
+                            </li>
+                        </ul>
+                    </div>
+
+                     <!--<li class="list-group-item list-group-item-light">Display dates</li> -->
                   
                   </ul>
                 </p>
@@ -90,5 +106,18 @@
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script>
+    function updateDateTime() {
+
+
+        var currentTime = new Date();
+        var timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+        document.getElementById('current-time').textContent = currentTime.toLocaleTimeString('en-US', timeOptions);
+    }
+    
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+ 
+  </script>
   </body>
   </html>

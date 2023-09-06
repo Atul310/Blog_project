@@ -1,15 +1,17 @@
-
+from django.core.paginator import Paginator
 from .models import Post # . operator use to import from current directory 
 # models is the directory and we import Post
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
+from django.contrib.auth.models import User
 from django.views.generic import (ListView,
                                   DetailView ,
                                   CreateView,
                                   UpdateView,
                                   DeleteView
                                   )
-
+from datetime import datetime
+from .forms import CommentForm
 # this render helps to point to the template and return whenever 
 # to naviagtese) particular page.
 # Create your views here.    
@@ -27,9 +29,23 @@ class PostListView(ListView):
     template_name = 'blog/home.html'
     context_object_name ='posts'
     ordering = ['-date_posted']
+    paginate_by=4
+
+class UserPostListView(ListView):
+    model=Post
+    template_name = 'blog/user_posts.html'  # <app>/<model>_<viewtype>.html
+    context_object_name = 'posts'
+    paginate_by = 5
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        return Post.objects.filter(author=user).order_by('-date_posted')
     
 class PostDetailView(DetailView):
     model = Post
+
+    template_name = 'blog/post_detail.html'  # Specify your template name
+
 
 class PostCreateView(LoginRequiredMixin,CreateView):
     model = Post
@@ -38,28 +54,57 @@ class PostCreateView(LoginRequiredMixin,CreateView):
         form.instance.author =self.request.user
         return super().form_valid(form)
 
-class PostUpdateView(LoginRequiredMixin,CreateView):
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     fields = ['title','content']
+    
     def form_valid(self,form):
         form.instance.author =self.request.user
         return super().form_valid(form)
-    def test_form(self):
+    def test_func(self):
         post=self.get_object()
         if self.request.user == post.author:
             return True
         return False 
+        
 
     
 class PostDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
     model = Post
     success_url= '/Blog'
     def test_func(self):
-        # Add your implementation logic here
-        # Check if the current user has permission to delete the post
-        return self.request.user == self.get_object().author
+        post=self.get_object()
+        if self.request.user== post.author:
+            return True
+        return False
+        
 
-
+def sidebar_view(request):
+    current_datetime = datetime.now()
+    context = {'current_datetime': current_datetime}
+    return render(request, 'base.html', context)
 
 def about(request):
-    return render(request,'blog/about.html',{"titl]e":"About"})
+    return render(request,'blog/about.html',{'title':'About'})
+
+def my_blogs(request):
+    
+    if request.user.is_authenticated:
+        # Filter blogs by the logged-in user
+        user_blogs = Post.objects.filter(author=request.user)
+        blogs_per_page = 5  # You can adjust this value based on your preferences
+
+        # Create a Paginator object
+        paginator = Paginator(user_blogs, blogs_per_page)
+         # Get the current page number from the request's GET parameters
+        page_number = request.GET.get('page')
+
+        # Get the Page object for the current page
+        blogs_page = paginator.get_page(page_number)
+
+        context = {'user_blogs': blogs_page}  # Use a different variable name, e.g., 'blogs_page'
+        return render(request, 'blog/my_blogs.html', context)
+    else:
+        # Handle the case when the user is not logged in
+        return render(request, 'blog/my_blogs.html')
+

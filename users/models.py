@@ -1,11 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import User
-from PIL import Image
+from PIL import Image 
+from django.conf import settings
 
 
 class profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
-    image = models.ImageField(default='profile_pics/default.jpeg',upload_to='profile_pics',blank=True)   #default='default.jpeg',
+    image = models.ImageField( default='profile_pics/default.jpg',  # Relative to MEDIA_ROOT
+        upload_to='profile_pics',
+        blank=True,
+        null=True
+    )
     def __str__(self):
         return f'{self.user.username} Profile'
     def save(self, *args, **kwargs):
