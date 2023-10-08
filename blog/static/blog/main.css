@@ -108,9 +108,11 @@ a.article-title:hover {
 
 /* Style paragraphs */
 .about-us p {
-  font-size: 16px; /* Set font size for paragraphs */
+  font-size: 18px; /* Set font size for paragraphs */
   line-height: 1.5; /* Line height for readability */
   color: #666; /* Text color for paragraphs */
+  font-family: 'Courier New', Courier, monospace;
+  justify-content:left;
 }
 
 /* Style the unordered list */
@@ -133,3 +135,26 @@ a.article-title:hover {
 .about-us a:hover {
   color: #0056b3; /* Color change on hover */
 }
+
+  /* .left-side-gap-container {
+ 
+    width: 200px;
+      /* clear: left; */
+    
+      .welcome-imager {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+      }
+      
+      /* .welcome-imager img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      } */
+ 
+  

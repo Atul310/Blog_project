@@ -1,0 +1,37 @@
+
+{% extends "blog/base.html" %}  
+{% load crispy_forms_tags %} 
+
+{% block content %} 
+
+<div class="content-section">
+    
+        {% csrf_token %}
+        <a href="{% url 'user-profile' user.username %}">View Profile</a>
+        <h2>{{ profile.user.username }}</h2>
+    <p>Email: {{ profile.user.email }}</p>
+    <!-- Display social media links and other profile data here -->
+    {% if profile.facebook_link %}
+        <p>Facebook: <a href="{{ profile.facebook_link }}" target="_blank">{{ profile.facebook_link }}</a></p>
+    {% endif %}
+    {% if profile.twitter_link %}
+        <p>Twitter: <a href="{{ profile.twitter_link }}" target="_blank">{{ profile.twitter_link }}</a></p>
+    {% endif %}
+    {% if profile.github_link %}
+        <p>Github: <a href="{{ profile.github_link }}" target="_blank">{{ profile.github_link }}</a></p>
+    {% endif %}
+
+       
+    
+
+</div>
+
+
+
+
+
+{% endblock content %}
+
+
+
+

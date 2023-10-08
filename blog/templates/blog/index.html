@@ -1,0 +1,99 @@
+
+{% load static %}
+{% load humanize %}
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Blog{% if title %} - {{ title }}{% endif %}{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}"> 
+  
+    
+    <!-- Custom JavaScript -->
+    <!--<script src="{% static 'blog/datetime.js' %}"></script> -->
+</head>
+<body>
+    <!-- Header -->
+   <!-- <div class="left-side-gap-container welcome-image bg-light text-center" style="position: relative; width: 100%; height: 100vh;">
+        <img src="{% static 'blog/Home.png' %}" alt="Welcome Image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+      </div> -->
+      
+   
+   <!-- <div class="left-side-gap-container welcome-image bg-light text-center" > -->
+        <!-- class="container-fluid welcome-image bg-light text-center"-->
+       <!--class="left-side-gap-container welcome-image bg-light text-center"--> 
+       <!-- <img src="{% static 'blog/Home1.png' %}" alt="Welcome Image"  > -->
+    
+    <header class="site-header">
+        
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+            <div class="container">
+                <a class="navbar-brand mr-4" href="{% url 'blog-home' %}"> </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarToggle">
+                    <div class="navbar-nav mr-auto">
+                        <a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a>
+                        <a class="nav-item nav-link" href="{% url 'blog-about' %}">About</a>
+                    </div>
+                    <div class="navbar-nav">
+                        {% if user.is_authenticated %}
+                            <a class="nav-item nav-link" href="{% url 'post-create' %} ">New Post</a>
+                            <a class="nav-item nav-link" href="{% url 'profile' %} ">Profile</a>
+                            <a class="nav-item nav-link" href="{% url 'logout' %} ">Logout</a>
+                        {% else %}
+                            <a class="nav-item nav-link" href="{% url 'login' %} ">Login</a>
+                            <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+  <div  style='margin-top:-40px;'>
+    <img src="{% static 'blog/Home.png' %}" alt="Welcome Image"style='margin-top:-40px'  >
+  </div>
+    <!-- Main Content -->
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-md-8">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% block content %}{% endblock %}
+            </div>
+                {% comment %} <div>
+                    <header>
+                        <h1>Welcome to the College Blog</h1>
+                        <p>Your source for college news and updates</p>
+                        </header>
+                        <section id="blog">
+                        <!-- Blog content will be dynamically loaded here -->
+                        </section>
+                        
+                        <footer>
+                        <p>&copy; 2023 College Blog</p>
+                        </footer>
+                    </div>       {% endcomment %}
+    </main>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js" integrity="..."></script>
+</body>
+</html>

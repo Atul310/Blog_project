@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>{{ user_profile.username }}'s Profile</h2>
+  <img src="{{ user_profile.profile.image.url }}" alt="Profile Image" width="150">
+  <p>Facebook: {{ user_profile.profile.facebook_link }}</p>
+  <p>Twitter: {{ user_profile.profile.twitter_link }}</p>
+  <p>Github: {{ user_profile.profile.github_link }}</p>
+{% endblock %}

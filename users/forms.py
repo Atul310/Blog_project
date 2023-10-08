@@ -20,11 +20,13 @@ class UserUpdateForm(forms.ModelForm):
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = profile
-        fields= ['image']
+        fields= ['image','facebook_link', 'twitter_link', 'github_link']
+
+class ProfiledisplayForm(forms.ModelForm):
+   class Meta:
+        model = profile
+        fields = ['image', 'facebook_link', 'twitter_link', 'github_link']
+
          
   
      
-
-    
-   
-        

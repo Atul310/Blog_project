@@ -6,13 +6,17 @@
           <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
           <div class="media-body">
             <div class="article-metadata">
-              <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ Post.author }}</a>
-              <small class="text-muted">{{ Post.date_posted|date:"F d, Y" }}</small>
+             {% comment %} <!-- <a href="{% url 'users:user_profile' user.username %}">{{ user.username }}</a> --> {% endcomment %}
+            <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a> 
+            <small class="text-muted">{{ Post.date_posted|date:"F d, Y" }}</small>
             </div>
-            <h2><a class="article-title" href="{% url 'post-detail' Post.id %}">{{ Post.title }}</a></h2>
-            <p class="article-content">{{ Post.content }}</p>
+            <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+             <p class="article-content">{{ post.content }}</p> 
           </div>
         </article>
+        
+     
+       
     {% endfor %}
     {% if is_paginated %}
 
@@ -35,4 +39,4 @@
       {% endif %}
 
     {% endif %}
-{% endblock content %}
+{% endblock content %} 

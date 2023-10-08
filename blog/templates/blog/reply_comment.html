@@ -1,0 +1,8 @@
+
+{% block content %}
+  <form method="post" action="{% url 'reply-comment' post.id comment.id %}">
+    {% csrf_token %}
+    {{ reply_form|crispy }}
+    <button type="submit">Reply</button>
+  </form>
+{% endblock content %}

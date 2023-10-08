@@ -4,7 +4,9 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 # user are predefined in django authenciation system
-
+from PIL import Image 
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill, Transpose
 # Create your models here.
 
 
@@ -15,6 +17,8 @@ class Post(models.Model):
     date_posted = models.DateTimeField(default=timezone.now)
 
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='post_images',default='')
+    
     
     
     def _str__(self):
@@ -43,10 +47,14 @@ class Post(models.Model):
 
 # Create your models here.
 class Comment(models.Model):
-    post = models.ForeignKey('blog.Post', on_delete=models.CASCADE)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
-    pub_date = models.DateTimeField(auto_now_add=True)
+    created_date = models.DateTimeField(default=timezone.now()),
+   
+
 
     def __str__(self):
-        return f"Comment by {self.author} on {self.post.title}"
+        
+         return f"Comment by {self.author} on {self.post.title}"
+ 

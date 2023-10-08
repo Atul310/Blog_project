@@ -1,6 +1,6 @@
 
 {% extends "blog/base.html" %} 
-
+{% comment %} {% load social_share %} {% endcomment %}
 {% block content %} 
     
       <article class="media content-section">
@@ -18,24 +18,23 @@
 
             <h2 class="article-title" > {{ object.title }} </h2>
             <p class="article-content">{{ object.content }}</p>
-          </div>
-        </article>
-        <!-- <h2>Comments</h2>
-          <div class="comments">
-            {% for comment in comments %}
-            <div class="comment">
-              <p>{{ comment.content }}</p>
-              <small>By {{ comment.author }} on {{ comment.pub_date }}</small>
+            <div class="social-share">
+              <h4>Share this post:</h4>
+              <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank" rel="noopener noreferrer">Share on Facebook</a>
+              <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}" target="_blank" rel="noopener noreferrer">Share on Twitter</a>
+              <a href="https://www.linkedin.com/shareArticle?url={{ request.build_absolute_uri }}" target="_blank" rel="noopener noreferrer">Share on LinkedIn</a>
             </div>
-            {% endfor %}
-          </div>
 
-          <h2>Add a Comment</h2>
-          <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Submit Comment</button> 
-  </form> -->
+
+
+
+
+          </div>
+          <!-- Social Sharing Buttons -->
+        
+        </article>
+        
+  </form> 
       
 {% endblock content %}
 

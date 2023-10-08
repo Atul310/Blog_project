@@ -3,7 +3,8 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required   # use of this is 
 from django.contrib import messages 
 from .forms import UserRegisterForm,UserUpdateForm, ProfileUpdateForm
-
+from django.contrib.auth.models import User
+from django.views.generic.detail import DetailView
 
 
 # Create your views here.
@@ -43,11 +44,21 @@ def profile(request):
     
     return render(request,'users/profile.html',context)
 
+def user_profile(request,username):
+    user= User.objects.get(username= username)
+    return render (request, user)
     
 
 
 
 
+class UserProfileDetailView(DetailView):
+    model = User
+    template_name = 'users/profile_detail.html'  # Create a template for displaying the user profile
+    context_object_name = 'user_profile'
+
+    def get_object(self, queryset=None):
+        return self.request.user
 
 
 

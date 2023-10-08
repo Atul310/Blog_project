@@ -9,8 +9,23 @@
       <div class="media-body">
         <h2 class="account-heading">{{ user.username }}</h2>
         <p class="text-secondary">{{ user.email }}</p>
+
       </div>
+
     </div>
+    <!-- Add social media links here -->
+    <div class="social-links">
+      {% if user.profile.facebook_link %}
+          <a href="{{ user.profile.facebook_link }}" target="_blank"><i class="fab fa-facebook"></i></a>
+      {% endif %}
+      {% if user.profile.twitter_link %}
+          <a href="{{ user.profile.twitter_link }}" target="_blank"><i class="fab fa-twitter"></i></a>
+      {% endif %}
+      {% if user.profile.github_link %}
+          <a href="{{ user.profile.github_link }}" target="_blank"><i class="fab fa-github"></i></a>
+      {% endif %}
+  </div>
+      {% if user == request.user %}
       <form  method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <fieldset class="form-group">
@@ -24,6 +39,7 @@
 
     
       </form>
+      {% endif %}
 </div>
 
 {% endblock content %}

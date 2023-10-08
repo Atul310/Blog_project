@@ -9,6 +9,7 @@ from . views import (PostListView,
                     )
 
 from . import views
+
     
 
 # by importing the ListView 
@@ -16,18 +17,18 @@ from . import views
 # this include function will include
 
 urlpatterns = [
-    path('', PostListView.as_view(), name='blog-home'),
-    path('my-blogs/', views.my_blogs, name='my-blogs'),
+    path('', views.index, name='index'),
+    path('post/<int:post_id>/add_comment/', views.add_comment, name='add-comment'),
+    path('home/', PostListView.as_view(), name='blog-home'),
     path('user/<str:username>',UserPostListView.as_view(),name='user-posts'),
     path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
     path('post/new/', PostCreateView.as_view(), name='post-create'),
     path('post/<int:pk>/update', PostUpdateView.as_view(), name='post-update'),
     path('post/<int:pk>/delete', PostDeleteView.as_view(), name='post-delete'),
-   
     path('about/', views.about, name='blog-about'),
-
-    # path('calendar/', include('scheduler.urls')),
+     path('my-blogs/', views.my_blogs, name='my-blogs'),
+    
+    path('post/<int:post_id>/reply_comment/<int:parent_id>/', views.reply_comment, name='reply-comment'),
    
-
 
 ]

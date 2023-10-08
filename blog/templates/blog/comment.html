@@ -1,0 +1,21 @@
+
+{% for comment in comments %}
+  <div class="comment">
+    <p>{{ comment.text }}</p>
+    <small>By {{ comment.author }} on {{ comment.created_date }}</small>
+
+    <!-- Reply form for each comment -->
+    <form method="post" action="{% url 'add_comment_reply' post.id comment.id %}">
+      {% csrf_token %}
+      {{ reply_form.as_p }}
+      <button type="submit">Reply</button>
+    </form>
+
+    <!-- Recursive call to display replies -->
+    {% if comment.comment_set.count > 0 %}
+      <div class="replies">
+        {% include 'blog/comment.html' with comments=comment.comment_set.all reply_form=reply_form %}
+      </div>
+    {% endif %}
+  </div>
+{% endfor %}
